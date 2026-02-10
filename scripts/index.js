@@ -1,3 +1,9 @@
+const createElement = (arr) => {
+    console.log(arr);
+    const elements = arr.map(item => `<span class="btn bg-sky-200">${item}</span>`)
+    return elements.join(" ");
+
+}
 const loadLevels = () => {
     fetch('https://openapi.programming-hero.com/api/levels/all')
         .then(res => res.json())
@@ -24,7 +30,7 @@ const showWordDetails = (wordObj) => {
     const container = document.getElementById("details-container")
     container.innerHTML = `
                 <h2 class="text-2xl font-bold">${word} (<i class="fa-solid fa-microphone-lines"></i> : <span class="font-siliguri">${pronunciation})</span></h2>
-                <div class="flex justify-between items-center w-11/12 mx-auto">
+                <div class="flex justify-between items-start w-11/12">
                     <div class="my-4">
                     <p class="font-semibold text-lg">Meaning</p>
                     <p class="">${meaning}</p>
@@ -34,14 +40,14 @@ const showWordDetails = (wordObj) => {
                     <p class="">${partsOfSpeech}</p>
                     </div>
                 </div>
-                <div class="my-4">
+                <div class="mb-4">
                     <p class="font-semibold text-lg">Example</p>
                     <p class="">${sentence}</p>
                 </div>
                 <div class="">
-                    <h3 class="font-siliguri">সমার্থক শব্দ গুলো</h3>
+                    <h3 class="font-siliguri font-semibold">সমার্থক শব্দ গুলো</h3>
                     <div class="flex gap-4">
-
+                        ${createElement(synonyms)}
                     </div>
                 </div>
                 <button class="btn btn-primary mt-6">Complete Learning</button>`

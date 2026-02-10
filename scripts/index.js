@@ -1,10 +1,7 @@
 const loadLevels = () => {
     fetch('https://openapi.programming-hero.com/api/levels/all')
         .then(res => res.json())
-        .then(data => {
-            // const   
-            displayLesson(data.data)
-        })
+        .then(data => displayLesson(data.data))
         .catch(err => console.log(err.message))
 }
 
@@ -14,11 +11,41 @@ const removeActive = () => {
     // console.log(lessonButtons);
     lessonButtons.forEach(btn => btn.classList.remove("active"))
 }
+const loadWordDetails = async (id) => {
+    const res = await fetch(`https://openapi.programming-hero.com/api/word/${id}`)
+    const { data: word } = await res.json()
+    showWordDetails(word)
+}
 
 // show details
-const showWordDetails = (id) => {
-    // console.log('modal', id);
-    // id.showModal()
+const showWordDetails = (wordObj) => {
+    console.log(wordObj);
+    const { level, word, meaning, partsOfSpeech, points, pronunciation, sentence, synonyms } = wordObj;
+    const container = document.getElementById("details-container")
+    container.innerHTML = `
+                <h2 class="text-2xl font-bold">${word} (<i class="fa-solid fa-microphone-lines"></i> : <span class="font-siliguri">${pronunciation})</span></h2>
+                <div class="flex justify-between items-center w-11/12 mx-auto">
+                    <div class="my-4">
+                    <p class="font-semibold text-lg">Meaning</p>
+                    <p class="">${meaning}</p>
+                    </div>
+                    <div class="my-4">
+                    <p class="font-semibold text-lg">Parts of Speech</p>
+                    <p class="">${partsOfSpeech}</p>
+                    </div>
+                </div>
+                <div class="my-4">
+                    <p class="font-semibold text-lg">Example</p>
+                    <p class="">${sentence}</p>
+                </div>
+                <div class="">
+                    <h3 class="font-siliguri">সমার্থক শব্দ গুলো</h3>
+                    <div class="flex gap-4">
+
+                    </div>
+                </div>
+                <button class="btn btn-primary mt-6">Complete Learning</button>`
+    document.getElementById("modal_id").showModal()
 }
 
 // pronunciation func
@@ -35,6 +62,7 @@ const loadLevelWord = async (id) => {
         const res = await fetch(`https://openapi.programming-hero.com/api/level/${id}`)
         const { data: words } = await res.json()
 
+        // set active class 
         removeActive()
         const lessonBtn = document.getElementById(`lesson-btn-${id}`)
         lessonBtn.classList.add('active')
@@ -58,19 +86,8 @@ const displayLevelWords = (words) => {
                 <p class="my-3">meaning/pronunciation</p>
                 <p class="font-siliguri font-semibold text-2xl"><span class=${word.meaning == null && 'text-red-600'}>${word.meaning}</span> / ${word.pronunciation}</p>
                 <div class="flex justify-between w-10/12 mx-auto mt-8">
-                    <button onclick="my_modal_2.showModal()" class="btn btn-circle cursor-pointer"><i class="fa-solid fa-circle-info"></i></button>
+                    <button onclick="loadWordDetails(${word.id})" class="btn btn-circle cursor-pointer"><i class="fa-solid fa-circle-info"></i></button>
                     
-                    <button class="btn" onclick="${showWordDetails(modalId)}">open modal</button>
-                    <dialog id="${modalId}" class="modal">
-                    <div class="modal-box">
-                        <h3 class="text-lg font-bold">Hello!</h3>
-                        <p class="py-4">Press ESC key or click outside to close</p>
-                    </div>
-                    <form method="dialog" class="modal-backdrop">
-                        <button>close</button>
-                    </form>
-                    </dialog>
-
                     <button onClick="pronunciationWord('${word?.word}')" class="btn btn-circle"><i class="fa-solid fa-volume-high"></i></button>
                 </div>
             `
@@ -83,14 +100,20 @@ const displayLesson = lessons => {
     lavelContainer.innerHTML = "";
 
     for (const lesson of lessons) {
-        console.log(lesson);
         const btnDiv = document.createElement("div")
         // btnDiv.id = `div-${lesson.level_no}`
         // btnDiv.onclick = () => func('tirtho')
-        btnDiv.innerHTML = `<button id="lesson-btn-${lesson.level_no}" onClick="loadLevelWord(${lesson.level_no})" class="btn btn-outline btn-primary lesson-btn"><i class="fa-solid fa-book-open"></i>Lesson ${lesson.level_no}</button>`;
+        btnDiv.innerHTML = `<button id="lesson-btn-${lesson.level_no}" onclick="loadLevelWord(${lesson.level_no})" class="btn btn-outline btn-primary lesson-btn"><i class="fa-solid fa-book-open"></i>Lesson ${lesson.level_no}</button>`;
 
         lavelContainer.append(btnDiv)
     }
+}
+
+const handleGetStarted = (e) => {
+    e.preventDefault()
+    const form = e.target;
+
+    console.log('submited');
 }
 
 loadLevels()

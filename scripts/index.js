@@ -33,20 +33,20 @@ const showWordDetails = (wordObj) => {
                 <div class="flex justify-between items-start w-11/12">
                     <div class="my-4">
                     <p class="font-semibold text-lg">Meaning</p>
-                    <p class="">${meaning}</p>
+                    <p class="text-sm">${meaning}</p>
                     </div>
                     <div class="my-4">
                     <p class="font-semibold text-lg">Parts of Speech</p>
-                    <p class="">${partsOfSpeech}</p>
+                    <p class="text-sm">${partsOfSpeech}</p>
                     </div>
                 </div>
                 <div class="mb-4">
                     <p class="font-semibold text-lg">Example</p>
-                    <p class="">${sentence}</p>
+                    <p class="text-sm">${sentence}</p>
                 </div>
                 <div class="">
                     <h3 class="font-siliguri font-semibold">সমার্থক শব্দ গুলো</h3>
-                    <div class="flex gap-4">
+                    <div class="flex gap-4 flex-wrap">
                         ${createElement(synonyms)}
                     </div>
                 </div>

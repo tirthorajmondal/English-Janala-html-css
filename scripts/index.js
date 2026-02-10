@@ -1,8 +1,24 @@
 const loadLevels = () => {
     fetch('https://openapi.programming-hero.com/api/levels/all')
         .then(res => res.json())
-        .then(data => displayLesson(data.data))
+        .then(data => {
+            // const   
+            displayLesson(data.data)
+        })
         .catch(err => console.log(err.message))
+}
+
+// remove all active class
+const removeActive = () => {
+    const lessonButtons = document.querySelectorAll(".lesson-btn")
+    // console.log(lessonButtons);
+    lessonButtons.forEach(btn => btn.classList.remove("active"))
+}
+
+// show details
+const showWordDetails = (id) => {
+    // console.log('modal', id);
+    // id.showModal()
 }
 
 // pronunciation func
@@ -12,15 +28,16 @@ const pronunciationWord = (word) => {
     window.speechSynthesis.speak(uttrance);
 }
 
-const showWordDetails = (id) => {
-    console.log('modal', id);
-    id.showModal()
-}
 
 const loadLevelWord = async (id) => {
     try {
+
         const res = await fetch(`https://openapi.programming-hero.com/api/level/${id}`)
         const { data: words } = await res.json()
+
+        removeActive()
+        const lessonBtn = document.getElementById(`lesson-btn-${id}`)
+        lessonBtn.classList.add('active')
         displayLevelWords(words);
 
     } catch (error) {
@@ -60,15 +77,17 @@ const displayLevelWords = (words) => {
         wordsContainer.append(wordCard);
     });
 }
-
+// const func = (param) => console.log(param);
 const displayLesson = lessons => {
     const lavelContainer = document.getElementById('lavel-container')
     lavelContainer.innerHTML = "";
 
     for (const lesson of lessons) {
-        // console.log(lesson);
+        console.log(lesson);
         const btnDiv = document.createElement("div")
-        btnDiv.innerHTML = `<button onClick="loadLevelWord(${lesson.level_no})" class="btn btn-outline btn-primary"><i class="fa-solid fa-book-open"></i>Lesson ${lesson.level_no}</button>`;
+        // btnDiv.id = `div-${lesson.level_no}`
+        // btnDiv.onclick = () => func('tirtho')
+        btnDiv.innerHTML = `<button id="lesson-btn-${lesson.level_no}" onClick="loadLevelWord(${lesson.level_no})" class="btn btn-outline btn-primary lesson-btn"><i class="fa-solid fa-book-open"></i>Lesson ${lesson.level_no}</button>`;
 
         lavelContainer.append(btnDiv)
     }

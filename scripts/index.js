@@ -1,4 +1,4 @@
-const createElement = (arr) => {
+const createHtmlElement = (arr) => {
     console.log(arr);
     const elements = arr.map(item => `<span class="btn bg-sky-200">${item}</span>`)
     return elements.join(" ");
@@ -47,7 +47,7 @@ const showWordDetails = (wordObj) => {
                 <div class="">
                     <h3 class="font-siliguri font-semibold">সমার্থক শব্দ গুলো</h3>
                     <div class="flex gap-4 flex-wrap">
-                        ${createElement(synonyms)}
+                        ${createHtmlElement(synonyms)}
                     </div>
                 </div>
                 <button class="btn btn-primary mt-6">Complete Learning</button>`
@@ -114,6 +114,62 @@ const displayLesson = lessons => {
         lavelContainer.append(btnDiv)
     }
 }
+const loadFaqData = () => {
+    data = [
+        {
+            "id": 1,
+            "question": "How can I start learning English on this website?",
+            "answer": "You can start by exploring our beginner lessons, interactive exercises, and quizzes. We also offer structured courses to guide you step by step."
+        },
+        {
+            "id": 2,
+            "question": "Is this website free to use?",
+            "answer": "Yes, our website offers free access to basic lessons, vocabulary practice, and quizzes. Some advanced courses may require registration."
+        },
+        {
+            "id": 3,
+            "question": "Do I need to create an account?",
+            "answer": "No, you can access many resources without an account. However, creating an account allows you to track your progress and save your achievements."
+        },
+        {
+            "id": 4,
+            "question": "How can I build my English vocabulary?",
+            "answer": "You can improve your vocabulary by practicing daily word lists, taking quizzes, using flashcards, and participating in interactive exercises."
+        },
+        {
+            "id": 5,
+            "question": "Do you offer certificates for completed courses?",
+            "answer": "Yes, we provide certificates for learners who successfully complete our structured courses and final assessments."
+        }
+    ]
+
+
+    showFAQ(data)
+}
+
+const showFAQ = (data) => {
+    console.log(data);
+    const faqContainer = document.getElementById('faq');
+    // faqContainer.innerHTML = ""
+    data.forEach(item => {
+        const qaDiv = document.createElement("div");
+        qaDiv.innerHTML = `
+                <div tabindex="0" class="collapse collapse-plus bg-base-100 border-base-300 border">
+                <div class="collapse-title font-semibold">${item.question}</div>
+                <div class="collapse-content text-sm">
+                    ${item.answer}
+                </div>
+            </div>`
+        faqContainer.append(qaDiv);
+    })
+
+
+
+
+    // faqContainer.append();
+
+}
+
 
 const handleGetStarted = (e) => {
     e.preventDefault()
@@ -123,5 +179,6 @@ const handleGetStarted = (e) => {
 }
 
 loadLevels()
+loadFaqData()
 
 

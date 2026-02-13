@@ -79,12 +79,17 @@ const loadLevelWord = async (id) => {
     }
 }
 const displayLevelWords = (words) => {
+    const notFoundWordHtml = ` <div class="font-siliguri col-span-3  text-center my-12">
+                <i class="fa-solid fa-triangle-exclamation text-8xl text-slate-800"></i>
+                <p class="text-slate-600 my-4">এই Lesson এ এখনো কোন Vocabulary যুক্ত করা হয়নি।</p>
+                <h3 class="text-3xl font-medium">নেক্সট Lesson এ যান</h3>
+            </div>`;
+
     const wordsContainer = document.getElementById("words-container")
     // wordsContainer.innerHTML = "You didn't select any lesson"
 
-    words.length == 0 ? wordsContainer.innerHTML = "no data found for this lesson" : wordsContainer.innerHTML = ""
+    words.length == 0 ? wordsContainer.innerHTML = notFoundWordHtml : wordsContainer.innerHTML = ""
     words.forEach(word => {
-        const modalId = `modal-${word.id}`;
         const wordCard = document.createElement("div");
         wordCard.classList = "p-4 flex flex-col justify-center items-center bg-white rounded-xl text-center"
         wordCard.innerHTML = `
